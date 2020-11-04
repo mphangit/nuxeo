@@ -121,14 +121,14 @@ public class TestStreamService {
         streamManager.append("input", Record.of("changeMeNow", null));
 
         // the computation should forward the first record as it is to the output
-        LogRecord<Record> logRecord = tailer.read(Duration.ofSeconds(1));
+        LogRecord<Record> logRecord = tailer.read(Duration.ofSeconds(10));
         assertNotNull("Record not found in output stream", logRecord);
         assertEquals(key, logRecord.message().getKey());
         assertEquals(value, new String(logRecord.message().getData(), "UTF-8"));
 
         // the second record should be skipped
         // the third record should have a modified key
-        logRecord = tailer.read(Duration.ofSeconds(1));
+        logRecord = tailer.read(Duration.ofSeconds(10));
         assertNotNull("Record not found in output stream", logRecord);
         assertEquals("changedNow", logRecord.message().getKey());
 
